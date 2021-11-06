@@ -1,8 +1,6 @@
 # Build Something (even if it sucks) Saturday
 Sat Nov 6 2021: The inagural edition
  
- ---
- 
  [url parser in Haskell](https://github.com/ian-double-u/BS-eiis-S/tree/main/urlParser)
  
  The goal of the project is to take a url string and return each of it's eight (nine) parts in a reader friendly way (see [this](https://www.mattcutts.com/blog/seo-glossary-url-definitions/)).
