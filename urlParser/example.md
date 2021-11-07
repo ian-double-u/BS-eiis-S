@@ -28,7 +28,7 @@ urlParser("http://b.bhs.beaverton.k12.or.us:80/about/?class=math#schedule")
 will print
 
 ```
-url: [http://b.bhs.beaverton.k12.or.us:80/about/?class=math#schedule](http://b.bhs.beaverton.k12.or.us/about/?class=math#schedule)
+url: http://b.bhs.beaverton.k12.or.us:80/about/?class=math#schedule
 
 protocol: http
 port: 80
