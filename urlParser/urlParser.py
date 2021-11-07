@@ -8,6 +8,20 @@ def strRegexMatch(p,s):
     else:
         return ""
       
+with open("slds.txt", "r") as file:
+    sld_lines = file.readlines() 
+    
+sld_lines = [i for i in sld_lines if i[0:2] != "//" ]
+sld_lines = [i for i in sld_lines if i != "\n"]
+sld_lines = [i[2:] if i[0:2] == "*." else i for i in sld_lines]
+sld_lines = [i[1:] if i[0] == "!" else i for i in sld_lines]
+sld = [i[:-1] for i in sld_lines]
+
+with open("tlds.txt", "r") as file:
+    tld_lines = file.readlines()
+    
+tld = [i[:-1].lower() for i in tld_lines]
+
 def urlParser(url,json=False):
     # --- pre-define empty fields to preserve desired order ---
     parsedUrl = {"protocol": "", "port": "",
@@ -162,19 +176,24 @@ def urlParser(url,json=False):
         
     # --- (subdomain(s)), domain, (SLD(s)), TLD ---
     parsedUrl["FQDN"] = parsedUrl["FQDN"].lower()
-    domain_split = parsedUrl["FQDN"].split(".")
+    domain_split = parsedUrl["FQDN"].split(".")    
     
-    FQDN = parsedUrl["FQDN"]
-    while FQDN not in sld:
-        FQDN = FQDN[1:]
-        
-    parsedUrl["SLD"] = "." + FQDN
+    if len(domain_split) > 1:
+        FQDN = parsedUrl["FQDN"]
+        while FQDN not in sld:
+            FQDN = FQDN[1:]
+
+        parsedUrl["SLD"] = "." + FQDN
+
+        tld_matches = [i for i in tld if i in parsedUrl["SLD"]]
+
+        parsedUrl["TLD"] = "." + [d for d in domain_split if d in tld_matches][-1]
+        parsedUrl["domain"] = [d for d in domain_split if d not in parsedUrl["SLD"]][-1]
+        parsedUrl["subdomain"] = "".join([d for d in domain_split if d not in (parsedUrl["domain"]+parsedUrl["SLD"])])
     
-    tld_matches = [i for i in tld if i in parsedUrl["SLD"]]
-    
-    parsedUrl["TLD"] = "." + [d for d in domain_split if d in tld_matches][-1]
-    parsedUrl["domain"] = [d for d in domain_split if d not in parsedUrl["SLD"]][-1]
-    parsedUrl["subdomain"] = "".join([d for d in domain_split if d not in (parsedUrl["domain"]+parsedUrl["SLD"])])
+    # --- SLD correction ---
+    if parsedUrl["SLD"] == parsedUrl["TLD"]:
+        parsedUrl["SLD"] = ""
     
     # --- return ---
     if json:
