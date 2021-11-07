@@ -161,7 +161,7 @@ def urlParser(url,json=False):
                     
                 else:
                     # --- ---
-                    parsedUrl["FQDN"] = strRegexMatch(".+?(?=\/)",url) 
+                    parsedUrl["FQDN"] = strRegexMatch(".+?((?=(\/))|(?=$))",url) 
                     parsedUrl["path"] = strRegexMatch("[a-z]\/.*$",url)[1:] 
                     
     # --- parameters ---
@@ -176,6 +176,9 @@ def urlParser(url,json=False):
         
     # --- (subdomain(s)), domain, (SLD(s)), TLD ---
     parsedUrl["FQDN"] = parsedUrl["FQDN"].lower()
+    if parsedUrl["FQDN"][-1] == "/":
+        parsedUrl["FQDN"] = parsedUrl["FQDN"][:-1]
+    
     domain_split = parsedUrl["FQDN"].split(".")    
     
     if len(domain_split) > 1:
