@@ -15,7 +15,7 @@ def urlParser(url,json=False):
                      "domain": "",
                      "TLD": "",
                      "SLD": "",
-                     "subdomin": "",
+                     "subdomain": "",
                      "path": "/",
                      "query": "",
                      "parameters": {},
@@ -161,22 +161,20 @@ def urlParser(url,json=False):
         parsedUrl["path"] = "/"
         
     # --- (subdomain(s)), domain, (SLD(s)), TLD ---
+    parsedUrl["FQDN"] = parsedUrl["FQDN"].lower()
     domain_split = parsedUrl["FQDN"].split(".")
     
-    TLDs = []
-    SLDs = []     
+    FQDN = parsedUrl["FQDN"]
+    while FQDN not in sld:
+        FQDN = FQDN[1:]
+        
+    parsedUrl["SLD"] = "." + FQDN
     
-    # 1. Identify and remove TLD
-    # 2. Identify and remove any SLDs
-    # 3. domain is [-1] subdomains are [0:-1]
+    tld_matches = [i for i in tld if i in parsedUrl["SLD"]]
     
-    
-    """
-    "domain": "",
-    "SLD": "",
-    "TLD": "",
-    "subdomin": "",
-    """    
+    parsedUrl["TLD"] = "." + [d for d in domain_split if d in tld_matches][-1]
+    parsedUrl["domain"] = [d for d in domain_split if d not in parsedUrl["SLD"]][-1]
+    parsedUrl["subdomain"] = "".join([d for d in domain_split if d not in (parsedUrl["domain"]+parsedUrl["SLD"])])
     
     # --- return ---
     if json:
@@ -185,4 +183,4 @@ def urlParser(url,json=False):
         print(f"url: {url}\n")
         for key in parsedUrl:
             if parsedUrl[key]:
-                print(f"{key}: {parsedUrl[key]}")   
+                print(f"{key}: {parsedUrl[key]}")
