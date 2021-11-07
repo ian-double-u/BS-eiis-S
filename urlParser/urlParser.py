@@ -192,7 +192,7 @@ def urlParser(url,json=False):
 
         parsedUrl["TLD"] = "." + [d for d in domain_split if d in tld_matches][-1]
         parsedUrl["domain"] = [d for d in domain_split if d not in parsedUrl["SLD"]][-1]
-        parsedUrl["subdomain"] = "".join([d for d in domain_split if d not in (parsedUrl["domain"]+parsedUrl["SLD"])])
+        parsedUrl["subdomain"] = "".join([d + "." for d in domain_split if d not in (parsedUrl["domain"]+parsedUrl["SLD"]).split(".")])[:-1]
     
     # --- SLD correction ---
     if parsedUrl["SLD"] == parsedUrl["TLD"]:
