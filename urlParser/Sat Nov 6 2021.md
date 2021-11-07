@@ -1,7 +1,7 @@
 # Build Something (even if it sucks) Saturday
 Sat Nov 6 2021: The inagural edition
  
- [url parser in Haskell](https://github.com/ian-double-u/BS-eiis-S/tree/main/urlParser)
+ [url parser](https://github.com/ian-double-u/BS-eiis-S/tree/main/urlParser) in ~~Haskell~~ Python (Cabal & LLVM will be the death of me)
  
  The goal of the project is to take a url string and return each of it's eight (nine) parts in a reader friendly way (see [this](https://www.mattcutts.com/blog/seo-glossary-url-definitions/)).
  
@@ -12,6 +12,7 @@ Sat Nov 6 2021: The inagural edition
 	 1. "." seperated
 	 2. ```:\/\/.+?(?=:)``` and ```:\/\/.+?(?=(\/|$))``` (depending on wether or not url has port, also grabs "://")
 	 3. above grabs any subdomains, domain, any SLD, TLD. Split this on "." and look at two right most for SLD and TLD, then you can determine the domain, then you can determine any subdomains (remember to list subdomains in [order](https://en.wikipedia.org/wiki/Domain_Name_System#Domain_name_syntax,_internationalization))
+	 4. look for first matches of SLD and TLD so you don't accidentally grab those that might be in the query of a url
  5. Port
 	 1. on right of ":"
 	 2. ```:\d{2,3}\/``` (grabs ":" before and "/" after)
@@ -41,15 +42,22 @@ https://video.facebook.co.uk/videoplay?docid=-7246927612831078230&hl=en
 https://video.snapchat.co.uk/videoplay#00h02m30s
 https://video.twitter.co.uk/videoplay
 https://video.twitter.co.uk/videoplay/v
+https://bhs.beaverton.k12.or.us/
  
  
 Needed functions
-- string has fragement
-- string has query
-- string has port
+- string has fragement √
+- string has query √
+- string has port √
+	- use ```:\d{2,5}``` (includes ":")
 - domains has sld
 - tld of string
 - sld of string
-- take string and regex return match(es)
+- take string and regex return match(es) √
+
+
+## TODO:
+- # in path and path in FQDN
+- A TLD can have multiple nodes, like pvt.k12.ma.us. Once we can figure this out we can specify FQDN, domain, TLD, SLDs, and subdomains (see [here](https://publicsuffix.org/list/public_suffix_list.dat) and [here](https://data.iana.org/TLD/tlds-alpha-by-domain.txt))
+- run 16 tests
  
- (add this to github repo)
