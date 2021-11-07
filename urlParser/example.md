@@ -22,17 +22,17 @@ The parser can parse all parts of a url including protocol, subdomain(s), domain
 For example, see
 
 ```
-urlParser("http://bhs.beaverton.k12.or.us:80/about/?class=math#schedule")
+urlParser("http://b.bhs.beaverton.k12.or.us:80/about/?class=math#schedule")
 ```
 
 will print
 
 ```
-url: [http://bhs.beaverton.k12.or.us:80/about/?class=math#schedule](http://b.bhs.beaverton.k12.or.us/about/?class=math#schedule)
+url: [http://b.bhs.beaverton.k12.or.us:80/about/?class=math#schedule](http://b.bhs.beaverton.k12.or.us/about/?class=math#schedule)
 
 protocol: http
 port: 80
-FQDN: bhs.beaverton.k12.or.us
+FQDN: b.bhs.beaverton.k12.or.us
 domain: beaverton
 TLD: .us
 SLD: .k12.or.us
