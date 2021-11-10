@@ -48,3 +48,9 @@ You can also return the result as a dict by using
 ```
 urlParser(url,json=True)
 ```
+
+For example, see
+
+```
+urlParser("https://www.spectator.co.uk/",json=True)["SLD"] # == .co.uk
+```
