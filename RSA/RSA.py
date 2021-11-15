@@ -1,10 +1,8 @@
-# Libraries
 from numpy import lcm
 from math import gcd
 import collections
 import itertools
 
-# Functions
 def encoding(x):
     if type(x) == str:
         return [ord(c)+100 for c in x]
@@ -48,11 +46,10 @@ def trial_division(n):
     return divisors
 
 def divisors(n):
-    x = trial_division(n)
-    y = collections.Counter(x)
-    z = [[factor ** i for i in range(count + 1)] for factor, count in y.items()]
+    prime_factors_w_multiplicity = collections.Counter(trial_division(n))
+    powers = [[factor**i for i in range(count+1)] for factor, count in prime_factors_w_multiplicity.items()]
     
-    return sorted(list(set(list(map(lambda x: x[0]*x[1], list(itertools.product(*z)))))))
+    return sorted(list(set(list(map(lambda x: x[0]*x[1], list(itertools.product(*powers)))))))
 
 def generate_keys(m):
     p, q = sieve_of_Eratosthenes(m)[-1], sieve_of_Eratosthenes(m)[-2]
@@ -77,8 +74,10 @@ def generate_keys(m):
         
     return {"public-key": {"n": p*q, "e": e}, "private-key": {"d": d}}
 
+
 def encrypt(m, public_key):
     return [(i**public_key["e"]) % public_key["n"] for i in encoding(m)]   
+
 
 def decrypt(m,keys):
     return encoding([(i**keys["private-key"]["d"]) % keys["public-key"]["n"] for i in m])
