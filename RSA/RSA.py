@@ -77,10 +77,8 @@ def generate_keys(m):
         
     return {"public-key": {"n": p*q, "e": e}, "private-key": {"d": d}}
 
-
 def encrypt(m, public_key):
     return [(i**public_key["e"]) % public_key["n"] for i in encoding(m)]   
-
 
 def decrypt(m,keys):
     return encoding([(i**keys["private-key"]["d"]) % keys["public-key"]["n"] for i in m])
