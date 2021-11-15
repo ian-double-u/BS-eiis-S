@@ -49,13 +49,13 @@ def divisors(n):
     prime_factors_w_multiplicity = collections.Counter(trial_division(n))
     powers = [[factor**i for i in range(count+1)] for factor, count in prime_factors_w_multiplicity.items()]
     
-    return sorted(list(set(list(map(lambda x: x[0]*x[1], list(itertools.product(*powers)))))))
+    if len(powers) == 1:
+        return powers[0]
+    else:
+        return sorted(list(set(list(map(lambda x: x[0]*x[1], list(itertools.product(*powers)))))))
 
-def generate_keys(m1,m2):
-    primes = sieve_of_Eratosthenes(m2)
-    primes = list(filter(lambda x : x > m1 , primes))
-    
-    p, q = primes[-1], primes[0]
+def generate_keys(m):
+    p, q = sieve_of_Eratosthenes(m)[-1], sieve_of_Eratosthenes(m)[-2]
     
     m = lcm(p-1,q-1)
     e = 2
