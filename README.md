@@ -9,3 +9,4 @@ The other part of the inspiration was the general feeling of being a bit stuck, 
 ## Projects
 1. [urlParser](https://github.com/ian-double-u/BS-eiis-S/tree/main/urlParser) in Python
 2. [RSA Algorithm](https://github.com/ian-double-u/BS-eiis-S/tree/main/RSA) in Python
+3. [Combinatorial Logic Interpreter](https://github.com/ian-double-u/BS-eiis-S/tree/main/CLinterpreter) in Python
